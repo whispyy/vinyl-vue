@@ -14,8 +14,8 @@
           <p>Tile : <strong>{{ info.title }}</strong></p>
           <p>Artist : <strong>{{ info.artists | artists }}</strong></p>
           <p>Year : <strong>{{ info.year }}</strong></p>
-          <p>Available formats : 
-            <strong v-for="format in info.formats">
+          <p>Available formats :
+            <strong v-for="format in info.formats" :key="format.name">
             {{ format.name }}
             <span v-if="format.text">{{ format.text }}</span>
           </strong>
