@@ -10,17 +10,7 @@
       <div v-else>
         <div>Collection size : {{ length }}</div>
         <button v-on:click="randomPick()" class="action">Pick randomly</button>
-        <div v-if="!loading.detail" class="box">
-          <p>Tile : <strong>{{ info.title }}</strong></p>
-          <p>Artist : <strong>{{ info.artists | artists }}</strong></p>
-          <p>Year : <strong>{{ info.year }}</strong></p>
-          <p>Available formats :
-            <strong v-for="format in info.formats" :key="format.name">
-            {{ format.name }}
-            <span v-if="format.text">{{ format.text }}</span>
-          </strong>
-          </p>
-        </div>
+        <detail v-bind:loading="loading.detail" v-bind:info="info"></detail>
       </div>
 
     </section>
@@ -29,16 +19,20 @@
 
 <script>
 import axios from 'axios'
+import Detail from '@/components/Detail'
 
 export default {
   name: 'Main',
+  components: {
+    'detail': Detail
+  },
   data () {
     return {
-      info: {},
+      info: null,
       length: 0,
       loading: {
-        main: true,
-        detail: true
+        main: false,
+        detail: false
       },
       errored: {
         main: false,
@@ -47,6 +41,7 @@ export default {
     }
   },
   mounted () {
+    this.loading.main = true
     axios
       .get('https://api.discogs.com/users/ausamerika/collection/folders/0/releases')
       .then(response => { this.length = response.data.pagination.items })
@@ -83,11 +78,11 @@ export default {
         })
         .then(response => {
           const data = response.data.releases[0]
+          this.info = {}
           this.info.title = data.basic_information.title
           this.info.artists = data.basic_information.artists
           this.info.year = data.basic_information.year
           this.info.formats = data.basic_information.formats
-          console.log(this.info.formats)
         })
         .catch(err => {
           console.log(err)
@@ -116,12 +111,4 @@ h1, h2 {
   box-sizing: border-box;
   border: 1px solid #4fc08d;
 }
-
-.box::before {
-  content: "—";
-  color: #42b983;
-}
-/*.box {
-  margin: 2em;
-}*/
 </style>
