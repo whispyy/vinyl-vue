@@ -1,7 +1,7 @@
 <template>
   <div class="tooltip">
-    {{ text }}
-    <span class="tooltiptext" v-if="description">{{ description }}</span>
+    <slot>{{ text }}</slot>
+    <span class="tooltiptext" v-if="description">{{ transformedDescription }}</span>
   </div>
 </template>
 
@@ -11,6 +11,19 @@ export default {
   props: {
     text: String,
     description: [String, Array]
+  },
+  computed: {
+    transformedDescription: function () {
+      if (this.description) {
+        if (Array.isArray(this.description)) {
+          let list = ''
+          this.description.forEach(el => { list += (el + String.fromCharCode(160)) })
+          return list
+        } else {
+          return this.description
+        }
+      }
+    }
   },
   data () {
     return { }
