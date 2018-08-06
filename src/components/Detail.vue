@@ -3,13 +3,13 @@
     <loader v-if="loading"></loader>
 
     <div v-else-if="info" class="box">
-      <p v-if="info.title">Tile : <strong>{{ info.title }}</strong></p>
+      <p v-if="info.title">Title : <strong>{{ info.title }}</strong></p>
       <p v-if="info.artists">Artist : <strong>{{ info.artists | artists }}</strong></p>
       <p v-if="info.year">Year : <strong>{{ info.year }}</strong></p>
       <p v-if="info.formats">Available formats :
         <strong v-for="format in info.formats" :key="format.name">
         <tooltip :text="format.name" :description="format.descriptions"></tooltip>
-        <span v-if="format.text">{{ format.text }}</span>
+        <span v-if="format.text">[{{ format.text }}]</span>
       </strong>
       </p>
     </div>

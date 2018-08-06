@@ -30,6 +30,7 @@ export default {
   position: fixed;
   width: 100%;
   top: 0;
+  left: 0;
   box-shadow: 0 0 1px rgba(0,0,0,0.25);
   background-color: #fff;
   height: 40px;
